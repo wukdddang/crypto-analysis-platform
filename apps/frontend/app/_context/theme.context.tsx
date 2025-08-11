@@ -1,86 +1,80 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
-
-interface ThemeContextType {
-  isDark: boolean;
-  테마를_변경_한다: () => void;
-  다크모드로_설정_한다: () => void;
-  라이트모드로_설정_한다: () => void;
-}
-
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+import React, { useEffect, useState } from "react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { useTheme as useNextTheme } from "next-themes";
 
 export interface ThemeProviderProps {
   children: React.ReactNode;
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [isDark, setIsDark] = useState(false);
+  return (
+    <NextThemesProvider
+      attribute="class"
+      defaultTheme="light"
+      enableSystem={true}
+      storageKey="blockexplorer-theme"
+      themes={["light", "dark", "system"]}
+      disableTransitionOnChange={false}
+    >
+      {children}
+    </NextThemesProvider>
+  );
+};
 
-  // 로컬 스토리지에서 테마 설정 불러오기 (클라이언트 사이드에서만)
+// next-themes의 useTheme을 래핑하여 기존 인터페이스와 호환성 유지
+export const useTheme = () => {
+  const { theme, setTheme, resolvedTheme, systemTheme } = useNextTheme();
+  const [mounted, setMounted] = useState(false);
+
+  // 클라이언트에서만 실행되도록 보장
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const savedTheme = localStorage.getItem("theme");
-      if (savedTheme) {
-        setIsDark(savedTheme === "dark");
-      } else {
-        // 시스템 설정을 초기값으로만 사용
-        const systemPrefersDark = window.matchMedia(
-          "(prefers-color-scheme: dark)"
-        ).matches;
-        setIsDark(systemPrefersDark);
-        // 초기값을 로컬 스토리지에 저장
-        localStorage.setItem("theme", systemPrefersDark ? "dark" : "light");
-      }
-    }
+    setMounted(true);
   }, []);
 
-  // 테마 변경 시 DOM과 로컬 스토리지 업데이트 (클라이언트 사이드에서만)
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-        localStorage.setItem("theme", "dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-        localStorage.setItem("theme", "light");
-      }
-    }
-  }, [isDark]);
+  // mounted가 false이면 기본값 반환 (hydration 이슈 방지)
+  if (!mounted) {
+    return {
+      isDark: false,
+      테마를_변경_한다: () => {},
+      다크모드로_설정_한다: () => {},
+      라이트모드로_설정_한다: () => {},
+      theme: "light",
+      setTheme: () => {},
+      resolvedTheme: "light",
+      mounted: false,
+    };
+  }
 
-  // 액션 함수들
+  const isDark = resolvedTheme === "dark";
+
   const 테마를_변경_한다 = () => {
-    setIsDark(!isDark);
+    console.log("테마 변경 버튼 클릭됨. 현재 상태:", resolvedTheme);
+    console.log("현재 theme:", theme);
+    console.log("systemTheme:", systemTheme);
+    setTheme(isDark ? "light" : "dark");
   };
 
   const 다크모드로_설정_한다 = () => {
-    setIsDark(true);
+    console.log("다크모드로 강제 설정");
+    setTheme("dark");
   };
 
   const 라이트모드로_설정_한다 = () => {
-    setIsDark(false);
+    console.log("라이트모드로 강제 설정");
+    setTheme("light");
   };
 
-  const contextValue: ThemeContextType = {
+  return {
     isDark,
     테마를_변경_한다,
     다크모드로_설정_한다,
     라이트모드로_설정_한다,
+    // next-themes의 원본 기능들도 제공
+    theme,
+    setTheme,
+    resolvedTheme,
+    mounted,
   };
-
-  return (
-    <ThemeContext.Provider value={contextValue}>
-      {children}
-    </ThemeContext.Provider>
-  );
-};
-
-// 커스텀 훅
-export const useTheme = () => {
-  const context = useContext(ThemeContext);
-  if (context === undefined) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
-  return context;
 };

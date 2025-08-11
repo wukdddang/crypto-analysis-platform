@@ -1,5 +1,4 @@
 import { BitcoinExplorerProvider } from "./_context/bitcoin-explorer.context";
-import { ThemeProvider } from "./_context/theme.context";
 import HeaderSection from "./_ui/header.section";
 import SearchSection from "./_ui/search.section";
 import BitcoinInfoSection from "./_ui/bitcoin-info.section";
@@ -22,10 +21,8 @@ function PageContent() {
 
 export default function Home() {
   return (
-    <ThemeProvider>
-      <BitcoinExplorerProvider>
-        <PageContent />
-      </BitcoinExplorerProvider>
-    </ThemeProvider>
+    <BitcoinExplorerProvider>
+      <PageContent />
+    </BitcoinExplorerProvider>
   );
 }

@@ -1,12 +1,16 @@
-'use client';
+"use client";
 
-import { Search, Moon, Sun } from 'lucide-react';
-import { useTheme } from '../../_context/theme.context';
+import { Search, Moon, Sun } from "lucide-react";
+import { useTheme } from "../../_context/theme.context";
 
 export default function HeaderSection() {
-  const { isDark, 테마를_변경_한다 } = useTheme();
+  const { isDark, 테마를_변경_한다, resolvedTheme, mounted } = useTheme();
 
   const handleThemeToggle = () => {
+    console.log("헤더 토글 버튼 클릭됨");
+    console.log("현재 헤더에서 보는 isDark:", isDark);
+    console.log("resolvedTheme:", resolvedTheme);
+    console.log("mounted:", mounted);
     테마를_변경_한다();
   };
 
@@ -18,17 +22,49 @@ export default function HeaderSection() {
           <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-lg">B</span>
           </div>
-          <h1 className="text-xl font-bold text-blue-600 dark:text-blue-400">BlockExplorer.one</h1>
+          <h1 className="text-xl font-bold text-blue-600 dark:text-blue-400">
+            BlockExplorer.one
+          </h1>
         </div>
 
         {/* 네비게이션 메뉴 */}
         <nav className="hidden md:flex items-center space-x-6">
-          <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Explore</a>
-          <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Features</a>
-          <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">Market Data</a>
-          <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">News</a>
-          <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">APIs</a>
-          <a href="#" className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium">About</a>
+          <a
+            href="#"
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
+          >
+            Explore
+          </a>
+          <a
+            href="#"
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
+          >
+            Features
+          </a>
+          <a
+            href="#"
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
+          >
+            Market Data
+          </a>
+          <a
+            href="#"
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
+          >
+            News
+          </a>
+          <a
+            href="#"
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
+          >
+            APIs
+          </a>
+          <a
+            href="#"
+            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
+          >
+            About
+          </a>
         </nav>
 
         {/* 검색바 및 기타 버튼 */}
@@ -41,13 +77,26 @@ export default function HeaderSection() {
             />
             <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
           </div>
-          
+
           <button
             onClick={handleThemeToggle}
             className="p-2 rounded-lg border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300"
-            title={isDark ? '라이트 모드로 전환' : '다크 모드로 전환'}
+            title={
+              mounted
+                ? isDark
+                  ? "라이트 모드로 전환"
+                  : "다크 모드로 전환"
+                : "테마 토글"
+            }
+            suppressHydrationWarning
           >
-            {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            {!mounted ? (
+              <Moon className="h-5 w-5" />
+            ) : isDark ? (
+              <Sun className="h-5 w-5" />
+            ) : (
+              <Moon className="h-5 w-5" />
+            )}
           </button>
         </div>
       </div>

@@ -4,6 +4,10 @@ globs:
 alwaysApply: false
 ---
 
+비트코인 익스플로러 개발을 진행하려고 해.
+
+Nextjs 14 + SWR + pnpm 을 사용해줘.
+
 # React Context 작성 규칙
 
 ## 1. Context 파일 구조 및 네이밍
