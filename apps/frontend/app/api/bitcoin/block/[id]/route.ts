@@ -6,9 +6,9 @@ const generateMockBlockDetail = (id: string) => {
   const isHeight = /^\d+$/.test(id);
   const height = isHeight ? parseInt(id) : 909522;
   const hash = isHeight
-    ? `000000000000000${Math.random().toString(16).substr(2, 20)}${Math.random()
-        .toString(16)
-        .substr(2, 16)}${Math.random().toString(16).substr(2, 11)}`
+    ? Array.from({ length: 64 }, () =>
+        Math.floor(Math.random() * 16).toString(16)
+      ).join("")
     : id;
 
   // 트랜잭션 목록 생성
@@ -16,11 +16,10 @@ const generateMockBlockDetail = (id: string) => {
   const txCount = Math.floor(Math.random() * 20) + 5;
 
   for (let i = 0; i < txCount; i++) {
-    const txHash = `${Math.random().toString(16).substr(2, 16)}${Math.random()
-      .toString(16)
-      .substr(2, 16)}${Math.random().toString(16).substr(2, 16)}${Math.random()
-      .toString(16)
-      .substr(2, 16)}`;
+    // 정확히 64자리 해시 생성
+    const txHash = Array.from({ length: 64 }, () =>
+      Math.floor(Math.random() * 16).toString(16)
+    ).join("");
     const amount = (Math.random() * 10).toFixed(8);
     transactions.push({
       hash: txHash,

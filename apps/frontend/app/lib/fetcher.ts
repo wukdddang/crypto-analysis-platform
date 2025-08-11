@@ -44,11 +44,9 @@ export const generateMockBlocks = (page: number, pageSize: number = 15) => {
       (page - 1) * pageSize * 10 + i * 10 + Math.floor(Math.random() * 10);
 
     blocks.push({
-      hash: `${randomHash}${Math.random()
-        .toString(16)
-        .substr(2, 16)}${Math.random()
-        .toString(16)
-        .substr(2, 16)}${Math.random().toString(16).substr(2, 6)}`,
+      hash: Array.from({ length: 64 }, () =>
+        Math.floor(Math.random() * 16).toString(16)
+      ).join(""),
       height: height.toString(),
       size: randomSize.toLocaleString(),
       transactions: randomTx.toString(),

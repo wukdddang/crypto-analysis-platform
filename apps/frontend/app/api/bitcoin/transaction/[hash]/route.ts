@@ -23,9 +23,9 @@ const generateMockTransactionDetail = (hash: string) => {
     } else {
       inputs.push({
         index: i,
-        previousTxHash: `${Math.random()
-          .toString(16)
-          .substr(2, 16)}${Math.random().toString(16).substr(2, 16)}`,
+        previousTxHash: Array.from({ length: 64 }, () =>
+          Math.floor(Math.random() * 16).toString(16)
+        ).join(""),
         outputIndex: Math.floor(Math.random() * 10).toString(),
         scriptSig: `${Math.random().toString(16).substr(2, 20)}...`,
         sequence: "4294967295",
