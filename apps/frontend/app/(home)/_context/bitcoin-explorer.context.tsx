@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import useSWR from 'swr';
+import React, { createContext, useContext, useState, useEffect } from "react";
+import useSWR from "swr";
 
 // 타입 정의
 interface BitcoinData {
@@ -59,13 +59,17 @@ interface BitcoinExplorerContextType {
   setBlocksData: React.Dispatch<React.SetStateAction<BlocksResponse | null>>;
 }
 
-const BitcoinExplorerContext = createContext<BitcoinExplorerContextType | undefined>(undefined);
+const BitcoinExplorerContext = createContext<
+  BitcoinExplorerContextType | undefined
+>(undefined);
 
 export interface BitcoinExplorerProviderProps {
   children: React.ReactNode;
 }
 
-export const BitcoinExplorerProvider: React.FC<BitcoinExplorerProviderProps> = ({ children }) => {
+export const BitcoinExplorerProvider: React.FC<
+  BitcoinExplorerProviderProps
+> = ({ children }) => {
   // 데이터 상태
   const [bitcoinData, setBitcoinData] = useState<BitcoinData | null>(null);
   const [marketData, setMarketData] = useState<MarketData | null>(null);
@@ -80,19 +84,19 @@ export const BitcoinExplorerProvider: React.FC<BitcoinExplorerProviderProps> = (
     setError(null);
 
     try {
-      const response = await fetch('/api/bitcoin/info');
+      const response = await fetch("/api/bitcoin/info");
       const result = await response.json();
 
       if (result.success) {
         setBitcoinData(result.data);
       } else {
-        throw new Error(result.message || '비트코인 정보 조회에 실패했습니다.');
+        throw new Error(result.message || "비트코인 정보 조회에 실패했습니다.");
       }
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.'
+        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다."
       );
-      console.error('비트코인 정보 조회 오류:', err);
+      console.error("비트코인 정보 조회 오류:", err);
     } finally {
       setLoading(false);
     }
@@ -103,19 +107,19 @@ export const BitcoinExplorerProvider: React.FC<BitcoinExplorerProviderProps> = (
     setError(null);
 
     try {
-      const response = await fetch('/api/bitcoin/market');
+      const response = await fetch("/api/bitcoin/market");
       const result = await response.json();
 
       if (result.success) {
         setMarketData(result.data);
       } else {
-        throw new Error(result.message || '마켓 데이터 조회에 실패했습니다.');
+        throw new Error(result.message || "마켓 데이터 조회에 실패했습니다.");
       }
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.'
+        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다."
       );
-      console.error('마켓 데이터 조회 오류:', err);
+      console.error("마켓 데이터 조회 오류:", err);
     } finally {
       setLoading(false);
     }
@@ -133,13 +137,13 @@ export const BitcoinExplorerProvider: React.FC<BitcoinExplorerProviderProps> = (
         setBlocksData(result.data);
         setCurrentPage(page);
       } else {
-        throw new Error(result.message || '블록 목록 조회에 실패했습니다.');
+        throw new Error(result.message || "블록 목록 조회에 실패했습니다.");
       }
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.'
+        err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다."
       );
-      console.error('블록 목록 조회 오류:', err);
+      console.error("블록 목록 조회 오류:", err);
     } finally {
       setLoading(false);
     }
@@ -185,11 +189,44 @@ export const BitcoinExplorerProvider: React.FC<BitcoinExplorerProviderProps> = (
   );
 };
 
-// 커스텀 훅
+// 커스텀 훅들 (기존 use-bitcoin-explorer.ts의 내용을 통합)
 export const useBitcoinExplorer = () => {
   const context = useContext(BitcoinExplorerContext);
   if (context === undefined) {
-    throw new Error('useBitcoinExplorer must be used within a BitcoinExplorerProvider');
+    throw new Error(
+      "useBitcoinExplorer must be used within a BitcoinExplorerProvider"
+    );
   }
   return context;
+};
+
+// 비트코인 익스플로러 데이터 커스텀 훅
+export const useBitcoinData = () => {
+  const { bitcoinData, 비트코인_정보를_조회_한다 } = useBitcoinExplorer();
+  return { bitcoinData, 비트코인_정보를_조회_한다 };
+};
+
+// 마켓 데이터 커스텀 훅
+export const useMarketData = () => {
+  const { marketData, 마켓_데이터를_조회_한다 } = useBitcoinExplorer();
+  return { marketData, 마켓_데이터를_조회_한다 };
+};
+
+// 블록 데이터 및 페이지네이션 커스텀 훅
+export const useBlocksData = () => {
+  const { blocksData, currentPage, 블록_목록을_조회_한다, 페이지를_변경_한다 } =
+    useBitcoinExplorer();
+
+  return {
+    blocksData,
+    currentPage,
+    블록_목록을_조회_한다,
+    페이지를_변경_한다,
+  };
+};
+
+// 로딩 및 에러 상태 커스텀 훅
+export const useLoadingState = () => {
+  const { loading, error } = useBitcoinExplorer();
+  return { loading, error };
 };

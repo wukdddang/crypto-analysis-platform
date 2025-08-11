@@ -1,10 +1,10 @@
 import { BitcoinExplorerProvider } from "./_context/bitcoin-explorer.context";
-import HeaderSection from "./_ui/header.section";
+import HeaderSection from "../_ui/header.section";
 import SearchSection from "./_ui/search.section";
 import BitcoinInfoSection from "./_ui/bitcoin-info.section";
 import MarketDataSection from "./_ui/market-data.section";
 import LatestBlocksPanel from "./_ui/latest-blocks.panel";
-import FooterSection from "./_ui/footer.section";
+import FooterSection from "../_ui/footer.section";
 
 function PageContent() {
   return (

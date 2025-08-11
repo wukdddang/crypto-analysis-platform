@@ -2,7 +2,7 @@
 
 import { Copy } from "lucide-react";
 import { useBitcoinExplorer } from "../../_context/bitcoin-explorer.context";
-import PaginationComponent from "../pagination.component";
+import PaginationComponent from "../../../_ui/pagination.component";
 import Link from "next/link";
 
 export default function LatestBlocksPanel() {
