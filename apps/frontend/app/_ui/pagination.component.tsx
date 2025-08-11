@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface PaginationComponentProps {
   currentPage: number;
@@ -9,23 +9,27 @@ interface PaginationComponentProps {
   className?: string;
 }
 
-export default function PaginationComponent({ 
-  currentPage, 
-  totalPages, 
-  onPageChange, 
-  className = '' 
+export default function PaginationComponent({
+  currentPage,
+  totalPages,
+  onPageChange,
+  className = "",
 }: PaginationComponentProps) {
   const getVisiblePages = () => {
     const delta = 2;
     const range = [];
     const rangeWithDots = [];
 
-    for (let i = Math.max(2, currentPage - delta); i <= Math.min(totalPages - 1, currentPage + delta); i++) {
+    for (
+      let i = Math.max(2, currentPage - delta);
+      i <= Math.min(totalPages - 1, currentPage + delta);
+      i++
+    ) {
       range.push(i);
     }
 
     if (currentPage - delta > 2) {
-      rangeWithDots.push(1, '...');
+      rangeWithDots.push(1, "...");
     } else {
       rangeWithDots.push(1);
     }
@@ -33,7 +37,7 @@ export default function PaginationComponent({
     rangeWithDots.push(...range);
 
     if (currentPage + delta < totalPages - 1) {
-      rangeWithDots.push('...', totalPages);
+      rangeWithDots.push("...", totalPages);
     } else if (totalPages > 1) {
       rangeWithDots.push(totalPages);
     }
@@ -61,10 +65,10 @@ export default function PaginationComponent({
       <button
         onClick={handlePreviousPage}
         disabled={currentPage === 1}
-        className={`flex items-center justify-center w-10 h-10 rounded-lg border ${
+        className={`flex items-center justify-center w-10 h-10 rounded-lg border transition-colors ${
           currentPage === 1
-            ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-            : 'border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
+            ? "border-gray-200 dark:border-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+            : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500"
         }`}
       >
         <ChevronLeft className="w-5 h-5" />
@@ -73,15 +77,17 @@ export default function PaginationComponent({
       {/* 페이지 번호들 */}
       {getVisiblePages().map((page, index) => (
         <div key={index}>
-          {page === '...' ? (
-            <span className="flex items-center justify-center w-10 h-10 text-gray-500">...</span>
+          {page === "..." ? (
+            <span className="flex items-center justify-center w-10 h-10 text-gray-500 dark:text-gray-400">
+              ...
+            </span>
           ) : (
             <button
               onClick={() => handlePageClick(page as number)}
-              className={`flex items-center justify-center w-10 h-10 rounded-lg border font-medium ${
+              className={`flex items-center justify-center w-10 h-10 rounded-lg border font-medium transition-colors ${
                 currentPage === page
-                  ? 'border-blue-500 bg-blue-500 text-white'
-                  : 'border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
+                  ? "border-blue-500 bg-blue-500 text-white"
+                  : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500"
               }`}
             >
               {page}
@@ -94,10 +100,10 @@ export default function PaginationComponent({
       <button
         onClick={handleNextPage}
         disabled={currentPage === totalPages}
-        className={`flex items-center justify-center w-10 h-10 rounded-lg border ${
+        className={`flex items-center justify-center w-10 h-10 rounded-lg border transition-colors ${
           currentPage === totalPages
-            ? 'border-gray-200 text-gray-400 cursor-not-allowed'
-            : 'border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400'
+            ? "border-gray-200 dark:border-gray-600 text-gray-400 dark:text-gray-500 cursor-not-allowed"
+            : "border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:border-gray-400 dark:hover:border-gray-500"
         }`}
       >
         <ChevronRight className="w-5 h-5" />
