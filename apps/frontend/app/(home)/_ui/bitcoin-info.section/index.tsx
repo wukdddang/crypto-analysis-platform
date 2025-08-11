@@ -38,7 +38,7 @@ export default function BitcoinInfoSection() {
       <div className="max-w-7xl mx-auto">
         {/* 일렬 배치 레이아웃 */}
         <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-6 transition-colors">
-          <div className="flex items-start justify-between">
+          <div className="flex items-start justify-between h-[120px]">
             {/* 좌측: 비트코인 정보 */}
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center">
@@ -81,12 +81,14 @@ export default function BitcoinInfoSection() {
             </div>
 
             {/* 가운데: 차트 */}
-            <div className="flex-1 flex justify-center items-center">
-              <InteractiveChart />
+            <div className="flex-1 flex justify-center items-center px-4">
+              <div className="w-full max-w-md">
+                <InteractiveChart />
+              </div>
             </div>
 
             {/* 우측: 추천 수수료 */}
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 h-full flex flex-col justify-start">
               <div className="flex items-center justify-between mb-3">
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                   RECOMMENDED FEES PER BYTE
@@ -98,17 +100,17 @@ export default function BitcoinInfoSection() {
                   API for this data
                 </a>
               </div>
-              <div className="space-y-2">
+              <div className="space-y-2 flex-1 flex flex-col justify-center">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-700 dark:text-gray-300 font-medium text-sm">
                     Slow
                   </span>
                   <div className="text-right">
                     <div className="text-gray-900 dark:text-gray-100 font-mono text-sm">
-                      0.00000001 BTC
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      $0.001089
+                      0.00000001 BTC{" "}
+                      <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                        $0.001089
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -118,10 +120,10 @@ export default function BitcoinInfoSection() {
                   </span>
                   <div className="text-right">
                     <div className="text-gray-900 dark:text-gray-100 font-mono text-sm">
-                      0.00000001 BTC
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      $0.001089
+                      0.00000001 BTC{" "}
+                      <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                        $0.001089
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -131,10 +133,10 @@ export default function BitcoinInfoSection() {
                   </span>
                   <div className="text-right">
                     <div className="text-gray-900 dark:text-gray-100 font-mono text-sm">
-                      0.00000002 BTC
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                      $0.002179
+                      0.00000002 BTC{" "}
+                      <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                        $0.002179
+                      </span>
                     </div>
                   </div>
                 </div>
