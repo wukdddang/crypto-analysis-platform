@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 
 interface ChartData {
   height: number;
   blockNumber: string;
   transactions: number;
-  timestamp: string;
 }
 
 interface InteractiveChartProps {
@@ -19,84 +18,110 @@ export default function InteractiveChart({
   className = "",
 }: InteractiveChartProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
-  // Mock 데이터를 useMemo로 고정 (리렌더링 시에도 동일한 데이터 유지)
+  // 작은 막대 그래프용 데이터 (15개 막대)
   const chartData = useMemo(() => {
     if (data) return data;
 
-    return Array.from({ length: 24 }, (_, i) => ({
-      height: Math.floor(Math.sin(i * 0.5) * 30 + 50 + Math.cos(i * 0.3) * 20), // 더 자연스러운 패턴
-      blockNumber: `90951${String(24 - i).padStart(2, "0")}`,
-      transactions: Math.floor(
-        Math.sin(i * 0.4) * 1000 + 2500 + Math.cos(i * 0.2) * 500
-      ),
-      timestamp: `${String(16 - Math.floor(i / 4)).padStart(2, "0")}:${String(
-        (i % 4) * 15
-      ).padStart(2, "0")}`,
+    return Array.from({ length: 15 }, (_, i) => ({
+      height: Math.floor(Math.random() * 80 + 20), // 20-100px 높이
+      blockNumber: `909${(518 + i).toString()}`,
+      transactions: Math.floor(Math.random() * 4000 + 500), // 500-4500 트랜잭션
     }));
   }, [data]);
 
-  const handleMouseEnter = (index: number, event: React.MouseEvent) => {
+  // 상대적 높이로 정규화 (컨테이너의 80%를 최대로 설정)
+  const maxHeight = Math.max(...chartData.map((item) => item.height));
+  const minHeight = Math.min(...chartData.map((item) => item.height));
+  const normalizedData = chartData.map((item) => {
+    const ratio = (item.height - minHeight) / (maxHeight - minHeight);
+    // 최소 10%, 최대 80%의 컨테이너 높이 사용
+    const heightPercent = minHeight === maxHeight ? 50 : ratio * 70 + 10;
+    return {
+      ...item,
+      heightPercent,
+    };
+  });
+
+  // 컴포넌트 언마운트 시 timeout 정리
+  useEffect(() => {
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
+
+  const handleMouseEnter = (index: number) => {
+    // 기존 timeout 클리어
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+
     setHoveredIndex(index);
-    const rect = event.currentTarget.getBoundingClientRect();
-    setTooltipPosition({
-      x: rect.left + rect.width / 2,
-      y: rect.top - 10,
-    });
+
+    // 300ms 후에 툴팁 표시
+    const newTimeoutId = setTimeout(() => {
+      setShowTooltip(true);
+    }, 300);
+
+    setTimeoutId(newTimeoutId);
   };
 
   const handleMouseLeave = () => {
+    // timeout 클리어
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+      setTimeoutId(null);
+    }
+
     setHoveredIndex(null);
+    setShowTooltip(false);
   };
 
   return (
-    <div className={`relative w-full h-full ${className}`}>
-      {/* 차트 영역 */}
-      <div className="w-full h-full bg-gradient-to-r from-orange-50 to-orange-100 dark:from-orange-900/20 dark:to-orange-800/20 rounded-lg flex items-end justify-center space-x-1 p-6">
-        {chartData.map((item, index) => (
-          <div
-            key={index}
-            className={`relative bg-orange-400 dark:bg-orange-500 rounded-t-sm cursor-pointer transition-all duration-200 ${
-              hoveredIndex === index
-                ? "bg-orange-500 dark:bg-orange-400 scale-105 shadow-lg"
-                : "hover:bg-orange-500 dark:hover:bg-orange-400"
-            }`}
-            style={{
-              height: `${item.height}%`,
-              width: `${Math.max(100 / chartData.length - 2, 8)}%`,
-              minWidth: "8px",
-            }}
-            onMouseEnter={(e) => handleMouseEnter(index, e)}
-            onMouseLeave={handleMouseLeave}
-          />
+    <div className={`relative ${className}`}>
+      {/* 더 큰 막대 차트 */}
+      <div className="flex items-end justify-center space-x-2.5 h-28 w-full">
+        {normalizedData.map((item, index) => (
+          <div key={index} className="relative h-full flex items-end">
+            {/* 회색 배경 바 (최대 높이) */}
+            <div
+              className="bg-gray-200 dark:bg-gray-600 relative rounded-sm"
+              style={{
+                height: "110px", // 고정 높이 110px
+                width: "8px",
+              }}
+            >
+              {/* 주황색 실제 데이터 바 */}
+              <div
+                className="bg-orange-400 dark:bg-orange-500 cursor-pointer transition-all duration-200 hover:bg-orange-500 dark:hover:bg-orange-400 absolute bottom-0 left-0 right-0 rounded-sm"
+                style={{
+                  height: `${item.heightPercent}%`,
+                  minHeight: "8px",
+                }}
+                onMouseEnter={() => handleMouseEnter(index)}
+                onMouseLeave={handleMouseLeave}
+              />
+            </div>
+
+            {/* 툴팁 */}
+            {hoveredIndex === index && showTooltip && (
+              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-1 z-50">
+                <div className="bg-gray-800 dark:bg-gray-700 text-white text-xs px-2 py-1 rounded whitespace-nowrap shadow-lg">
+                  <div className="font-semibold">
+                    Block: #{item.blockNumber}
+                  </div>
+                  <div>Transactions: {item.transactions.toLocaleString()}</div>
+                </div>
+                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-2 border-r-2 border-t-2 border-transparent border-t-gray-800 dark:border-t-gray-700" />
+              </div>
+            )}
+          </div>
         ))}
       </div>
-
-      {/* 툴팁 */}
-      {hoveredIndex !== null && (
-        <div
-          className="fixed z-50 bg-gray-800 dark:bg-gray-700 text-white text-sm px-3 py-2 rounded-lg shadow-lg pointer-events-none transform -translate-x-1/2 -translate-y-full"
-          style={{
-            left: tooltipPosition.x,
-            top: tooltipPosition.y,
-          }}
-        >
-          <div className="text-center">
-            <div className="font-semibold text-orange-300">
-              블록: #{chartData[hoveredIndex].blockNumber}
-            </div>
-            <div className="text-xs text-gray-300 mt-1">
-              Block: #{chartData[hoveredIndex].blockNumber}
-            </div>
-            <div className="text-xs text-gray-300">
-              Transactions: {chartData[hoveredIndex].transactions}
-            </div>
-          </div>
-          {/* 툴팁 화살표 */}
-          <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-gray-800 dark:border-t-gray-700" />
-        </div>
-      )}
     </div>
   );
 }
