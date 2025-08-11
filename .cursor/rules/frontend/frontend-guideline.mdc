@@ -1,0 +1,13 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+
+비트코인 익스플로러 개발을 진행하려고 해.
+
+화면 UI 단 기획만 진행하면 돼.
+
+1. 개인
+
+Nextjs 14 + SWR + pnpm 을 사용해줘.
