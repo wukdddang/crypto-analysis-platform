@@ -1,7 +1,10 @@
 "use client";
 
 import { useTransactionDetail } from "../../_context/transaction-detail.context";
+import BreadcrumbNavigation from "../breadcrumb-navigation.section";
+import TransactionHashSection from "../transaction-hash-section";
 import TransactionSummarySection from "../transaction-summary.section";
+import TransactionFlowSection from "../transaction-flow-section";
 import TransactionDetailsSection from "../transaction-details.section";
 import TransactionInputsSection from "../transaction-inputs.section";
 import TransactionOutputsSection from "../transaction-outputs.section";
@@ -73,18 +76,17 @@ export default function TransactionDetailContent() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
-      {/* 페이지 제목 */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          Transaction Details
-        </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-400 font-mono break-all">
-          {transactionDetail.hash}
-        </p>
-      </div>
+      {/* 브레드크럼 네비게이션 */}
+      <BreadcrumbNavigation />
+
+      {/* 트랜잭션 해시 ID 섹션 */}
+      <TransactionHashSection />
 
       {/* 트랜잭션 요약 정보 */}
       <TransactionSummarySection />
+
+      {/* FROM/TO 섹션 */}
+      <TransactionFlowSection />
 
       {/* 트랜잭션 상세 정보 */}
       <TransactionDetailsSection />

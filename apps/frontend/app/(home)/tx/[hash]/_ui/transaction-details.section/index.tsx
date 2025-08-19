@@ -19,9 +19,13 @@ export default function TransactionDetailsSection() {
 
   const detailItems = [
     { label: "Status", value: transactionDetail.status, copyable: false },
-    { label: "Size in Bytes", value: transactionDetail.size, copyable: false },
     {
-      label: "Date / Time",
+      label: "Size in Bytes",
+      value: transactionDetail.size || 0,
+      copyable: false,
+    },
+    {
+      label: "Date/Time",
       value: transactionDetail.timestamp,
       copyable: false,
     },
@@ -47,39 +51,18 @@ export default function TransactionDetailsSection() {
       copyable: false,
     },
     {
-      label: "Fee per Byte",
-      value: transactionDetail.feeRate,
-      copyable: false,
-    },
-    {
-      label: "Value when transacted",
+      label: "Fees",
       value: transactionDetail.fee,
       copyable: false,
     },
     {
-      label: "Block Hash",
-      value: transactionDetail.blockHash,
-      copyable: true,
-      link: `/block/${transactionDetail.blockHash}`,
-    },
-    {
-      label: "Version",
-      value: transactionDetail.version.toString(),
+      label: "Fee per byte",
+      value: transactionDetail.feeRate || "N/A",
       copyable: false,
     },
     {
-      label: "Lock Time",
-      value: transactionDetail.lockTime.toString(),
-      copyable: false,
-    },
-    {
-      label: "Weight",
-      value: `${transactionDetail.weight} WU`,
-      copyable: false,
-    },
-    {
-      label: "Virtual Size",
-      value: `${transactionDetail.virtualSize} vBytes`,
+      label: "Value when transacted",
+      value: transactionDetail.totalOutputUSD || "N/A",
       copyable: false,
     },
   ];
@@ -93,7 +76,7 @@ export default function TransactionDetailsSection() {
       </div>
 
       <div className="p-6">
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {detailItems.map((item, index) => (
             <div
               key={index}

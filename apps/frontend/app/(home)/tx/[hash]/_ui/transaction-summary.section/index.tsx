@@ -2,24 +2,12 @@
 
 import { useTransactionDetail } from "../../_context/transaction-detail.context";
 import Link from "next/link";
+import { Download } from "lucide-react";
 
 export default function TransactionSummarySection() {
   const { transactionDetail } = useTransactionDetail();
 
   if (!transactionDetail) return null;
-
-  const getStatusColor = (status: string) => {
-    switch (status.toLowerCase()) {
-      case "confirmed":
-        return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400";
-      case "pending":
-        return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400";
-      case "failed":
-        return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
-    }
-  };
 
   const summaryItems = [
     {
@@ -33,70 +21,87 @@ export default function TransactionSummarySection() {
       link: `/block/${transactionDetail.blockHeight}`,
     },
     {
-      label: "Confirmations",
-      value: transactionDetail.confirmations.toString(),
-    },
-    {
       label: "Fee",
       value: transactionDetail.fee,
     },
     {
-      label: "Date / Time",
+      label: "Confirmations",
+      value: transactionDetail.confirmations.toString(),
+    },
+    {
+      label: "Size",
+      value: `${transactionDetail.size || 0} bytes`,
+    },
+    {
+      label: "Date/Time",
       value: transactionDetail.timestamp,
-    },
-    {
-      label: "Total Input",
-      value: transactionDetail.totalInput,
-    },
-    {
-      label: "Total Output",
-      value: transactionDetail.totalOutput,
     },
   ];
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 mb-6">
-      {/* Header with status */}
-      <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
-        <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-          Transaction Summary
-        </h2>
-        <span
-          className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(
-            transactionDetail.status
-          )}`}
-        >
-          {transactionDetail.status}
-        </span>
-      </div>
-
       <div className="p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {summaryItems.map((item, index) => (
-            <div key={index} className="space-y-1">
-              <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                {item.label}
-              </dt>
-              <dd
-                className={`text-sm font-mono ${
-                  item.highlight
-                    ? "text-lg font-bold text-blue-600 dark:text-blue-400"
-                    : "text-gray-900 dark:text-gray-100"
-                }`}
-              >
-                {item.link ? (
-                  <Link
-                    href={item.link}
-                    className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline"
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Summary Box */}
+          <div className="flex-1">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {summaryItems.map((item, index) => (
+                <div key={index} className="space-y-1">
+                  <dt className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                    {item.label}
+                  </dt>
+                  <dd
+                    className={`text-sm font-mono ${
+                      item.highlight
+                        ? "text-lg font-bold text-blue-600 dark:text-blue-400"
+                        : "text-gray-900 dark:text-gray-100"
+                    }`}
                   >
-                    {item.value}
-                  </Link>
-                ) : (
-                  item.value
-                )}
-              </dd>
+                    {item.link ? (
+                      <Link
+                        href={item.link}
+                        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 underline"
+                      >
+                        {item.value}
+                      </Link>
+                    ) : (
+                      item.value
+                    )}
+                  </dd>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col space-y-3 min-w-[200px]">
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+              Buy
+            </button>
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+              Exchange
+            </button>
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+              Gaming
+            </button>
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors">
+              Earn Crypto
+            </button>
+
+            {/* Download and API buttons */}
+            <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
+              <button className="w-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-2 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2">
+                <Download className="h-4 w-4" />
+                <span>Download Transaction Receipts</span>
+                <span className="text-xs bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded">
+                  .PDF
+                </span>
+              </button>
+              <button className="w-full bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium py-2 px-4 rounded-lg transition-colors mt-2">
+                API for this data
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

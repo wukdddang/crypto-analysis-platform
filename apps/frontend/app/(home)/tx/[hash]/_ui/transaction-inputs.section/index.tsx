@@ -30,173 +30,81 @@ export default function TransactionInputsSection() {
         </h2>
       </div>
 
-      <div className="divide-y divide-gray-200 dark:divide-gray-700">
-        {transactionDetail.inputs.map((input, index) => (
-          <div key={index} className="p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Left Column */}
-              <div className="space-y-3">
-                <div>
-                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                    Index
-                  </dt>
-                  <dd className="text-sm text-gray-900 dark:text-gray-100 font-mono">
-                    {input.index}
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                    Address
-                  </dt>
-                  <dd className="text-sm text-gray-900 dark:text-gray-100 font-mono break-all">
-                    {input.address === "N/A" ? (
-                      <span className="text-gray-500 dark:text-gray-400">
-                        N/A
-                      </span>
-                    ) : (
-                      <div className="flex items-center">
-                        <span className="mr-2">
-                          {truncateHash(input.address)}
-                        </span>
-                        <button
-                          onClick={() =>
-                            copyToClipboard(input.address, `address-${index}`)
-                          }
-                          className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                          title="주소 복사"
-                        >
-                          {copiedField === `address-${index}` ? (
-                            <Check className="h-3 w-3 text-green-500" />
-                          ) : (
-                            <Copy className="h-3 w-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
-                          )}
-                        </button>
-                      </div>
-                    )}
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                    Signature ASM
-                  </dt>
-                  <dd className="text-sm text-gray-900 dark:text-gray-100 font-mono break-all">
-                    {input.scriptSig === "N/A" ? (
-                      <span className="text-gray-500 dark:text-gray-400">
-                        N/A
-                      </span>
-                    ) : (
-                      input.scriptSig
-                    )}
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                    Signature HEX
-                  </dt>
-                  <dd className="text-sm text-gray-900 dark:text-gray-100 font-mono break-all">
-                    {input.scriptSig === "N/A" ? (
-                      <span className="text-gray-500 dark:text-gray-400">
-                        N/A
-                      </span>
-                    ) : (
-                      input.scriptSig
-                    )}
-                  </dd>
-                </div>
-              </div>
-
-              {/* Right Column */}
-              <div className="space-y-3">
-                <div>
-                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                    Previous Transaction Hash
-                  </dt>
-                  <dd className="text-sm text-gray-900 dark:text-gray-100 font-mono break-all">
-                    {input.previousTxHash === "N/A - Block Reward" ? (
-                      <span className="text-gray-500 dark:text-gray-400">
-                        N/A - Block Reward
-                      </span>
-                    ) : (
-                      <div className="flex items-center">
-                        <Link
-                          href={`/tx/${input.previousTxHash}`}
-                          className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 mr-2"
-                        >
-                          {truncateHash(input.previousTxHash)}
-                        </Link>
-                        <ExternalLink className="h-3 w-3 text-gray-400" />
-                        <button
-                          onClick={() =>
-                            copyToClipboard(
-                              input.previousTxHash,
-                              `prevtx-${index}`
-                            )
-                          }
-                          className="ml-2 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-                          title="해시 복사"
-                        >
-                          {copiedField === `prevtx-${index}` ? (
-                            <Check className="h-3 w-3 text-green-500" />
-                          ) : (
-                            <Copy className="h-3 w-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
-                          )}
-                        </button>
-                      </div>
-                    )}
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                    Output Index
-                  </dt>
-                  <dd className="text-sm text-gray-900 dark:text-gray-100 font-mono">
-                    {input.outputIndex === "N/A" ? (
-                      <span className="text-gray-500 dark:text-gray-400">
-                        N/A
-                      </span>
-                    ) : (
-                      input.outputIndex
-                    )}
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                    Sequence
-                  </dt>
-                  <dd className="text-sm text-gray-900 dark:text-gray-100 font-mono">
-                    {input.sequence === "N/A" ? (
-                      <span className="text-gray-500 dark:text-gray-400">
-                        N/A
-                      </span>
-                    ) : (
-                      input.sequence
-                    )}
-                  </dd>
-                </div>
-
-                <div>
-                  <dt className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">
-                    Value
-                  </dt>
-                  <dd className="text-sm text-gray-900 dark:text-gray-100 font-mono font-bold">
-                    {input.value === "N/A" ? (
-                      <span className="text-gray-500 dark:text-gray-400">
-                        N/A
-                      </span>
-                    ) : (
-                      input.value
-                    )}
-                  </dd>
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+          <thead className="bg-gray-50 dark:bg-gray-700">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Index
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Address
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Sigscript ASM
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                Sigscript HEX
+              </th>
+            </tr>
+          </thead>
+          <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+            {transactionDetail.inputs.map((input, index) => (
+              <tr key={index}>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100 font-mono">
+                  {input.index}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 font-mono">
+                  {input.address === "N/A" ? (
+                    <span className="text-gray-500 dark:text-gray-400">
+                      N/A
+                    </span>
+                  ) : (
+                    <div className="flex items-center">
+                      <Link
+                        href={`/tx/${input.address}`}
+                        className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 mr-2"
+                      >
+                        {input.address}
+                      </Link>
+                      <button
+                        onClick={() =>
+                          copyToClipboard(input.address, `address-${index}`)
+                        }
+                        className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                        title="주소 복사"
+                      >
+                        {copiedField === `address-${index}` ? (
+                          <Check className="h-3 w-3 text-green-500" />
+                        ) : (
+                          <Copy className="h-3 w-3 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
+                        )}
+                      </button>
+                    </div>
+                  )}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 font-mono">
+                  {input.scriptSig === "N/A" ? (
+                    <span className="text-gray-500 dark:text-gray-400">
+                      N/A
+                    </span>
+                  ) : (
+                    input.scriptSig
+                  )}
+                </td>
+                <td className="px-6 py-4 text-sm text-gray-900 dark:text-gray-100 font-mono">
+                  {input.scriptSig === "N/A" ? (
+                    <span className="text-gray-500 dark:text-gray-400">
+                      N/A
+                    </span>
+                  ) : (
+                    input.scriptSig
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
       {transactionDetail.inputs.length === 0 && (
