@@ -1,3 +1,5 @@
+import { BlockData } from "@/types";
+
 // SWR을 위한 fetcher 함수
 export const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

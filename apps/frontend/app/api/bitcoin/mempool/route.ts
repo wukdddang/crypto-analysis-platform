@@ -1,62 +1,14 @@
 import { NextResponse } from "next/server";
-
-// 멤풀 데이터 타입 정의
-interface MempoolSummary {
-  transactionCount: number;
-  totalSize: number;
-  feeRange: {
-    min: number;
-    max: number;
-  };
-  estimatedWaitTime: {
-    nextBlock: number;
-    hour: number;
-  };
-}
-
-interface FeeDistribution {
-  feeRange: string;
-  count: number;
-  percentage: number;
-  color: string;
-}
-
-interface SizeDistribution {
-  sizeRange: string;
-  count: number;
-  percentage: number;
-}
-
-interface AgeDistribution {
-  ageRange: string;
-  count: number;
-  percentage: number;
-}
-
-interface Transaction {
-  hash: string;
-  fee: number;
-  feeRate: number;
-  size: number;
-  age: number;
-  inputs: number;
-  outputs: number;
-}
-
-interface TransactionLists {
-  highFee: Transaction[];
-  mediumFee: Transaction[];
-  lowFee: Transaction[];
-}
-
-interface MempoolData {
-  summary: MempoolSummary;
-  feeDistribution: FeeDistribution[];
-  sizeDistribution: SizeDistribution[];
-  ageDistribution: AgeDistribution[];
-  transactionLists: TransactionLists;
-}
-
+import {
+  MempoolSummary,
+  FeeDistribution,
+  SizeDistribution,
+  AgeDistribution,
+  Transaction,
+  TransactionLists,
+  MempoolData,
+} from "@/types";
+import { generateRandomHash } from "@/lib/utils";
 // 모의 데이터 생성 함수
 function generateMockMempoolData(): MempoolData {
   // 멤풀 요약 정보
@@ -146,16 +98,6 @@ function generateMockMempoolData(): MempoolData {
     ageDistribution,
     transactionLists,
   };
-}
-
-// 랜덤 해시 생성 함수
-function generateRandomHash(): string {
-  const chars = "0123456789abcdef";
-  let hash = "";
-  for (let i = 0; i < 64; i++) {
-    hash += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  return hash;
 }
 
 export async function GET(): Promise<NextResponse> {

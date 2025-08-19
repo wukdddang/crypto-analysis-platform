@@ -2,47 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import useSWR from "swr";
-
-// 타입 정의
-interface TransactionInput {
-  index: number;
-  previousTxHash: string;
-  outputIndex: string;
-  scriptSig: string;
-  sequence: string;
-  address: string;
-  value: string;
-}
-
-interface TransactionOutput {
-  index: number;
-  value: string;
-  scriptPubKey: string;
-  address: string;
-  type: string;
-}
-
-interface TransactionDetail {
-  hash: string;
-  status: string;
-  blockHash: string;
-  blockHeight: number;
-  timestamp: string;
-  size: string;
-  version: number;
-  lockTime: number;
-  inputCount: number;
-  outputCount: number;
-  totalInput: string;
-  totalOutput: string;
-  fee: string;
-  feeRate: string;
-  inputs: TransactionInput[];
-  outputs: TransactionOutput[];
-  confirmations: number;
-  weight: number;
-  virtualSize: number;
-}
+import { TransactionDetail } from "@/types";
 
 interface TransactionDetailContextType {
   // 데이터 상태

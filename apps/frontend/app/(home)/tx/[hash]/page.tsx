@@ -1,9 +1,9 @@
+import { BitcoinExplorerProvider } from "@/(home)/_context/bitcoin-explorer.context";
 import { Suspense } from "react";
-import { BitcoinExplorerProvider } from "@/app/(home)/_context/bitcoin-explorer.context";
-import TransactionDetailProvider from "@/app/(home)/tx/[hash]/_context/transaction-detail.context";
-import TransactionDetailContent from "@/app/(home)/tx/[hash]/_ui/transaction-detail-content.section";
-import HeaderSection from "@/app/_ui/header.section";
-import FooterSection from "@/app/_ui/footer.section";
+import TransactionDetailProvider from "./_context/transaction-detail.context";
+import HeaderSection from "@/_ui/header.section";
+import TransactionDetailContent from "./_ui/transaction-detail-content.section";
+import FooterSection from "@/_ui/footer.section";
 
 interface TransactionPageProps {
   params: {

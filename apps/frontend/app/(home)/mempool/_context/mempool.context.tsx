@@ -1,60 +1,13 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-
-// 멤풀 요약 정보 타입
-interface MempoolSummary {
-  transactionCount: number;
-  totalSize: number;
-  feeRange: {
-    min: number;
-    max: number;
-  };
-  estimatedWaitTime: {
-    nextBlock: number;
-    hour: number;
-  };
-}
-
-// 수수료 분포 데이터 타입
-interface FeeDistribution {
-  feeRange: string;
-  count: number;
-  percentage: number;
-  color: string;
-}
-
-// 크기 분포 데이터 타입
-interface SizeDistribution {
-  sizeRange: string;
-  count: number;
-  percentage: number;
-}
-
-// 연령 분포 데이터 타입
-interface AgeDistribution {
-  ageRange: string;
-  count: number;
-  percentage: number;
-}
-
-// 트랜잭션 정보 타입
-interface Transaction {
-  hash: string;
-  fee: number;
-  feeRate: number;
-  size: number;
-  age: number;
-  inputs: number;
-  outputs: number;
-}
-
-// 트랜잭션 리스트 타입
-interface TransactionLists {
-  highFee: Transaction[];
-  mediumFee: Transaction[];
-  lowFee: Transaction[];
-}
+import {
+  MempoolSummary,
+  FeeDistribution,
+  SizeDistribution,
+  AgeDistribution,
+  TransactionLists,
+} from "@/types";
 
 interface MempoolContextType {
   // 데이터 상태

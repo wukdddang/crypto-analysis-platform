@@ -62,7 +62,10 @@ export default function TransactionDetailsSection() {
     },
     {
       label: "Value when transacted",
-      value: transactionDetail.totalOutputUSD || "N/A",
+      value:
+        transactionDetail.totalOutputUSD ||
+        transactionDetail.totalOutput ||
+        "N/A",
       copyable: false,
     },
   ];
@@ -98,7 +101,9 @@ export default function TransactionDetailsSection() {
                 )}
                 {item.copyable && (
                   <button
-                    onClick={() => copyToClipboard(item.value, item.label)}
+                    onClick={() =>
+                      copyToClipboard(String(item.value), item.label)
+                    }
                     className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                     title="복사"
                   >

@@ -2,36 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import useSWR from "swr";
-
-// 타입 정의
-interface BlockTransaction {
-  hash: string;
-  from: string;
-  to: string;
-  amount: string;
-  fee: string;
-  time: string;
-}
-
-interface BlockDetail {
-  hash: string;
-  height: string;
-  timestamp: string;
-  size: string;
-  difficulty: string;
-  nonce: string;
-  transactionCount: string;
-  transactions: BlockTransaction[];
-  version: string;
-  previousBlockHash: string;
-  merkleRoot: string;
-  target: string;
-  blockReward: string;
-  totalFees: string;
-  totalOutput: string;
-  prevBlock: string | null;
-  nextBlock: string | null;
-}
+import { BlockDetail } from "@/types";
 
 interface BlockDetailContextType {
   // 데이터 상태

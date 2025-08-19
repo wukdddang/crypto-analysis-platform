@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { BitcoinExplorerProvider } from "../../_context/bitcoin-explorer.context";
-import HeaderSection from "@/app/_ui/header.section";
-import FooterSection from "@/app/_ui/footer.section";
+import HeaderSection from "@/_ui/header.section";
+import FooterSection from "@/_ui/footer.section";
 import BlockDetailProvider from "./_context/block-detail.context";
 import BlockDetailContent from "./_ui/block-detail-content.section";
 

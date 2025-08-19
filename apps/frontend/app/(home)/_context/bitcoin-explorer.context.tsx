@@ -1,41 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-
-// 타입 정의
-interface BitcoinData {
-  price: number;
-  currency: string;
-  difficulty: string;
-  blockHeight: number;
-  change24h: number;
-  change1w: number;
-}
-
-interface MarketData {
-  marketCap: number;
-  supply: number;
-  maxSupply: number;
-  change1h: number;
-  change1d: number;
-  change1w: number;
-}
-
-interface BlockData {
-  hash: string;
-  height: string;
-  size: string;
-  transactions: string;
-  reward: string;
-  time: string;
-  ago: string;
-}
-
-interface BlocksResponse {
-  data: BlockData[];
-  totalPages: number;
-  currentPage: number;
-}
+import { BitcoinData, MarketData, BlocksResponse } from "@/types";
 
 interface BitcoinExplorerContextType {
   // 데이터 상태
@@ -62,13 +28,9 @@ const BitcoinExplorerContext = createContext<
   BitcoinExplorerContextType | undefined
 >(undefined);
 
-export interface BitcoinExplorerProviderProps {
+export const BitcoinExplorerProvider: React.FC<{
   children: React.ReactNode;
-}
-
-export const BitcoinExplorerProvider: React.FC<
-  BitcoinExplorerProviderProps
-> = ({ children }) => {
+}> = ({ children }) => {
   // 데이터 상태
   const [bitcoinData, setBitcoinData] = useState<BitcoinData | null>(null);
   const [marketData, setMarketData] = useState<MarketData | null>(null);
