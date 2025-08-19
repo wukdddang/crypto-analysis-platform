@@ -22,36 +22,33 @@ export default function HeaderSection() {
           <div className="w-8 h-8 bg-blue-500 rounded-lg flex items-center justify-center">
             <span className="text-white font-bold text-lg">B</span>
           </div>
-          <h1 className="text-xl font-bold text-blue-600 dark:text-blue-400">
+          <a
+            href="/"
+            className="text-xl font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
+          >
             BlockExplorer.one
-          </h1>
+          </a>
         </div>
 
         {/* 네비게이션 메뉴 */}
         <nav className="hidden md:flex items-center space-x-6">
           <a
-            href="#"
+            href="/"
             className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
           >
-            Explore
+            홈
           </a>
           <a
-            href="#"
+            href="/mempool"
             className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
           >
-            Features
+            멤풀
           </a>
           <a
             href="#"
             className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
           >
             Market Data
-          </a>
-          <a
-            href="#"
-            className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 font-medium"
-          >
-            News
           </a>
           <a
             href="#"
