@@ -41,27 +41,31 @@ function generateMockMempoolData(): MempoolData {
     { feeRange: "12+", count: 4102, percentage: 91.3, color: "#ec4899" },
   ];
 
-  // 크기 분포 데이터
-  const sizeDistribution: SizeDistribution[] = [
-    { sizeRange: "0-250", count: 1400, percentage: 33.7 },
-    { sizeRange: "250-500", count: 850, percentage: 20.4 },
-    { sizeRange: "500-750", count: 650, percentage: 15.6 },
-    { sizeRange: "750-1000", count: 450, percentage: 10.8 },
-    { sizeRange: "1000-1250", count: 300, percentage: 7.2 },
-    { sizeRange: "1250-1500", count: 200, percentage: 4.8 },
-    { sizeRange: "1500+", count: 308, percentage: 7.4 },
-  ];
+  // 크기 분포 데이터 (연속값 40개) - 랜덤 생성
+  const sizeDistribution: SizeDistribution[] = [];
+  for (let i = 0; i < 40; i++) {
+    // 더 랜덤한 크기 값 (50B ~ 4000B 범위)
+    const size = Math.round((Math.random() * 3950 + 50) * 10) / 10;
+    // 더 랜덤한 트랜잭션 수 (10 ~ 1200개)
+    const count = Math.floor(Math.random() * 1190 + 10);
+    const percentage = Math.round((count / 25000) * 100 * 10) / 10;
+    sizeDistribution.push({ size, count, percentage });
+  }
+  // 크기 순으로 정렬
+  sizeDistribution.sort((a, b) => a.size - b.size);
 
-  // 연령 분포 데이터
-  const ageDistribution: AgeDistribution[] = [
-    { ageRange: "0-10", count: 1200, percentage: 28.9 },
-    { ageRange: "10-20", count: 950, percentage: 22.9 },
-    { ageRange: "20-30", count: 750, percentage: 18.0 },
-    { ageRange: "30-40", count: 500, percentage: 12.0 },
-    { ageRange: "40-50", count: 350, percentage: 8.4 },
-    { ageRange: "50-60", count: 250, percentage: 6.0 },
-    { ageRange: "60+", count: 153, percentage: 3.7 },
-  ];
+  // 연령 분포 데이터 (연속값 40개) - 랜덤 생성
+  const ageDistribution: AgeDistribution[] = [];
+  for (let i = 0; i < 40; i++) {
+    // 더 랜덤한 나이 값 (0.1분 ~ 150분 범위)
+    const age = Math.round((Math.random() * 149.9 + 0.1) * 10) / 10;
+    // 더 랜덤한 트랜잭션 수 (5 ~ 1500개)
+    const count = Math.floor(Math.random() * 1495 + 5);
+    const percentage = Math.round((count / 30000) * 100 * 10) / 10;
+    ageDistribution.push({ age, count, percentage });
+  }
+  // 나이 순으로 정렬
+  ageDistribution.sort((a, b) => a.age - b.age);
 
   // 트랜잭션 리스트 생성
   const generateTransactions = (

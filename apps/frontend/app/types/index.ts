@@ -93,13 +93,13 @@ export interface FeeDistribution {
 }
 
 export interface SizeDistribution {
-  sizeRange: string;
+  size: number; // 연속값 (bytes)
   count: number;
   percentage: number;
 }
 
 export interface AgeDistribution {
-  ageRange: string;
+  age: number; // 연속값 (minutes)
   count: number;
   percentage: number;
 }
