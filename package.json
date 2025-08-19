@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:front": "cd apps/frontend && pnpm dev",
-    "build:front": "cd apps/frontend && pnpm build"
+    "build:front": "cd apps/frontend && pnpm build",
+    "vercel-build": "cd apps/frontend && pnpm build"
   },
   "keywords": [],
   "author": "",
