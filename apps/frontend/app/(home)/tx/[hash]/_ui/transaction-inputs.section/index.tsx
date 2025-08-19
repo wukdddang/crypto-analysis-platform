@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransactionDetail } from "../../_context/transaction-detail.context";
-import { Copy, Check, ExternalLink } from "lucide-react";
+import { Copy, Check } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 
@@ -15,11 +15,6 @@ export default function TransactionInputsSection() {
     navigator.clipboard.writeText(text);
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
-  };
-
-  const truncateHash = (hash: string, length: number = 12) => {
-    if (hash === "N/A - Block Reward" || hash.length <= length * 2) return hash;
-    return `${hash.slice(0, length)}...${hash.slice(-length)}`;
   };
 
   return (

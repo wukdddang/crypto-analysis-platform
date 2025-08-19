@@ -35,9 +35,6 @@ export const generateMockBlocks = (page: number, pageSize: number = 15) => {
 
   for (let i = 0; i < pageSize; i++) {
     const height = startHeight - i;
-    const randomHash = `000000000000000${Math.random()
-      .toString(16)
-      .substr(2, 20)}`;
     const randomSize = Math.floor(Math.random() * 1000000) + 500000;
     const randomTx = Math.floor(Math.random() * 5000) + 1000;
     const minutesAgo =
@@ -69,7 +66,7 @@ export const mockBlocksData = generateMockBlocks(1);
 // 페이지네이션된 블록 데이터를 가져오는 함수
 export const fetchBlocksData = async (
   page: number
-): Promise<{ data: any[]; totalPages: number; currentPage: number }> => {
+): Promise<{ data: BlockData[]; totalPages: number; currentPage: number }> => {
   // 실제 API 호출을 시뮬레이션하기 위한 지연
   await new Promise((resolve) => setTimeout(resolve, 500));
 

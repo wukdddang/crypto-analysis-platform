@@ -17,28 +17,6 @@ export default function TransactionOutputsSection() {
     setTimeout(() => setCopiedField(null), 2000);
   };
 
-  const truncateHash = (hash: string, length: number = 12) => {
-    if (hash === "N/A" || hash.length <= length * 2) return hash;
-    return `${hash.slice(0, length)}...${hash.slice(-length)}`;
-  };
-
-  const getOutputTypeColor = (type: string) => {
-    switch (type) {
-      case "P2PKH":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400";
-      case "P2SH":
-        return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400";
-      case "P2WPKH":
-        return "bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400";
-      case "P2WSH":
-        return "bg-indigo-100 text-indigo-800 dark:bg-indigo-900/20 dark:text-indigo-400";
-      case "OP_RETURN":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400";
-    }
-  };
-
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">

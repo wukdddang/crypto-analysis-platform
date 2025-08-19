@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import useSWR from "swr";
 
 // 타입 정의
 interface BitcoinData {

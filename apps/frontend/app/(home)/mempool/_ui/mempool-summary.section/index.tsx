@@ -60,7 +60,7 @@ export default function MempoolSummarySection() {
               <p className="text-blue-800 dark:text-blue-200 mb-2">
                 <strong>
                   The following information is a real-time summary of
-                  transactions in your node's mempool.
+                  transactions in your node&apos;s mempool.
                 </strong>{" "}
                 These are unconfirmed transactions that have been broadcast to
                 the network.
